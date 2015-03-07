@@ -1,0 +1,5 @@
+name: ExamplePlugin
+version: 1.0.0
+author: QuartzCraft
+website: http://quartzcraft.co.uk/
+main: uk.co.quartzcraft.example.ExamplePlugin
