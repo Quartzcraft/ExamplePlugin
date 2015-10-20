@@ -23,10 +23,9 @@ import uk.co.quartzcraft.core.systems.notifications.AlertTypeHandler;
  * Core file for Example plugin.
  */
 public class ExamplePlugin extends JavaPlugin {
-	
 	public static String version;
-
-  public static Plugin plugin;
+	
+	public static Plugin plugin;
 	public static final Logger log = Logger.getLogger("Minecraft");
 	
 	public static Connection DBExample = null;
@@ -38,17 +37,17 @@ public class ExamplePlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
-      //Close database
-      log.info("[Example]Closing database connections");
-      MySQLexample.closeConnection();
-      try {
-        DBExample.close();
-        log.info("[Example]Successfully closed database connections");
-      } catch(SQLException e) {
-        log.log(Level.SEVERE,"[Example]Failed to close database connections!");
-      }
-
-    //Shutdown notice
+	      	//Close database
+	      	log.info("[Example]Closing database connections");
+	      	MySQLexample.closeConnection();
+	      	try {
+	        	DBExample.close();
+	        	log.info("[Example]Successfully closed database connections");
+	      	} catch(SQLException e) {
+	        	log.log(Level.SEVERE,"[Example]Failed to close database connections!");
+	      	}
+	
+	    	//Shutdown notice
 		log.info("[Example]The QuartzCore Plugin has been disabled!");
 	}
 	@Override
@@ -56,11 +55,11 @@ public class ExamplePlugin extends JavaPlugin {
 		
 		log.info("[Example][STARTUP LOGGER]Console logger discovered");
 
-    plugin = this;
-    version = plugin.getDescription().getVersion();
+    		plugin = this;
+    		version = plugin.getDescription().getVersion();
 		
 		//Config files - Set up config files if this is the first startup 
-		log.info("[Example]Running plugin configuration");
+		log.info("[PluginPrefix]Running plugin configuration");
 		this.saveDefaultConfig();
 		boolean DBConnect = this.getConfig().getBoolean("settings.database-connect");
 		
@@ -73,40 +72,40 @@ public class ExamplePlugin extends JavaPlugin {
 			String SQLExamplePassword = this.getConfig().getString("database.example.password");
 			MySQLexample = new MySQL(plugin, SQLExampleHost, "3306", SQLExampleDatabase, SQLExampleUser, SQLExamplePassword);
 		} else {
-      log.warning("[Example]Database connection set to false! Please fix this in the config.yml file!");
-      this.getServer().shutdown();
-    }
+      			log.warning("[Example]Database connection set to false! Please fix this in the config.yml file!");
+      			this.getServer().shutdown();
+    		}
 
-    //Database - Connect to the database
-    if(DBConnect) {
-      log.info("[Example][STARTUP]Connecting to Database");
-      DBExample = MySQLcore.openConnection();
-    }
-
+	    	//Database - Connect to the database
+	    	if(DBConnect) {
+	      		log.info("[Example][STARTUP]Connecting to Database");
+	      		DBExample = MySQLcore.openConnection();
+	    	}
+	
 		//Phrases - Create plugin specific phrases here
 		log.info("[Example][STARTUP]Creating Phrases");
 		QCChat.addPhrase("example_phrase", "&3This is an example phrase");
-
-    //Alert Types - Register all Alert Types here
-    log.info("[Example][STARTUP] Registering alert types");
-    AlertTypeHandler.registerAlertTypes(new ExampleAlertTypes());
-
+	
+	    	//Alert Types - Register all Alert Types here
+	    	log.info("[Example][STARTUP] Registering alert types");
+	    	AlertTypeHandler.registerAlertTypes(new ExampleAlertTypes());
+	
 		//Listeners - Register all listeners here
 		log.info("[Example][STARTUP]Registering listeners...");
 		new ExampleListener(this);
-
-	  //Commands - Register all commands here
+	
+		//Commands - Register all commands here
 		log.info("[Example][STARTUP]Registering commands...");
-    commandFramework = new QCommandFramework(this);
-    commandFramework.registerCommands(new CommandExample(this));
-	  		
-	  //Startup notice
-	  log.info("[Example]The Example Plugin has been enabled!");
+	    	commandFramework = new QCommandFramework(this);
+	    	commandFramework.registerCommands(new CommandExample(this));
+		  		
+		//Startup notice
+		log.info("[Example]The Example Plugin has been enabled!");
 	}
 	
-    //This method leads commands to be handled by the QCommand Framework
-    @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        return commandFramework.handleCommand(sender, label, command, args);
-    }
+    	//This method sends commands to be handled by the QCommand Framework
+    	@Override
+    	public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        	return commandFramework.handleCommand(sender, label, command, args);
+    	}
 }
